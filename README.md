@@ -1,3 +1,5 @@
+![Docker](https://github.com/itshaydendev/cardinal/workflows/Docker/badge.svg?branch=master)
+
 # Cardinal
 
 A Discord bot.
