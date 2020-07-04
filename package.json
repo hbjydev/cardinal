@@ -1,0 +1,32 @@
+{
+  "name": "cardinal",
+  "version": "1.0.0",
+  "description": "A Discord bot",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itshaydendev/cardinal.git"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
+  "author": "Hayden Young <hayden@itshayden.dev> (https://itshayden.dev)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itshaydendev/cardinal/issues"
+  },
+  "homepage": "https://github.com/itshaydendev/cardinal#readme",
+  "devDependencies": {
+    "@types/node": "^14.0.14",
+    "typescript": "^3.9.6"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0"
+  }
+}
