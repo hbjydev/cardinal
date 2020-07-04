@@ -1,4 +1,4 @@
-![Docker](https://github.com/itshaydendev/cardinal/workflows/Docker/badge.svg?branch=master)
+[![Docker](https://github.com/itshaydendev/cardinal/workflows/Docker/badge.svg?branch=master)](https://github.com/itshaydendev/cardinal/actions?query=workflow%3ADocker)
 
 # Cardinal
 
