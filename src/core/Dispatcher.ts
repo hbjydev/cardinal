@@ -6,9 +6,11 @@ const onMessage: (cardinal: Cardinal) => ((message: Message) => Promise<void>) =
   (cardinal) => {
     return async (message: Message) => {
       if (message.author.bot) return;
-      if (!message.content.startsWith('SC!')) return;
+      if (!message.content.startsWith(cardinal.prefix)) return;
 
-      const [ commandName, ...args ] = message.content.substring(3).split(' ');
+      const [ commandName, ...args ] =
+        message.content.substring(cardinal.prefix.length).split(' ');
+
       const command = cardinal.registry.commands.get(commandName);
 
       if(!command) {
