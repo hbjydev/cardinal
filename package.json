@@ -4,7 +4,8 @@
   "description": "A Discord bot",
   "main": "build/index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
