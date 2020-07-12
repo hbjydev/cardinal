@@ -16,7 +16,7 @@ WORKDIR /app
 
 COPY --from=build /build/build ./build
 COPY --from=build /build/package.json .
-COPY --from=build /buikd/package-lock.json .
+COPY --from=build /build/package-lock.json .
 
 RUN npm install --only=prod
 
