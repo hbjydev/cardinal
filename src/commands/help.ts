@@ -3,6 +3,7 @@ import { Message, MessageEmbed } from "discord.js";
 
 export default class HelpCommand extends Command {
   public name = 'help';
+  public description = 'Provides information about Cardinal\'s commands.';
 
   public async run(message: Message, ...args: string[]) {
     if (args.length == 0) {
