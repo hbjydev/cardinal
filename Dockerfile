@@ -14,7 +14,7 @@ FROM node:lts-alpine
 
 WORKDIR /app
 
-COPY --from=build /build/dist ./dist
+COPY --from=build /build/build ./build
 COPY --from=build /build/package.json .
 COPY --from=build /buikd/package-lock.json .
 
