@@ -9,6 +9,7 @@ A Discord bot.
 ```shell
 $ echo 'DISCORD_TOKEN=<your.token.here>' >> .env
 $ npm install
+$ npm run build
 $ npm start
 ```
 
