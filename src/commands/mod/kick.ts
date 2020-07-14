@@ -1,12 +1,12 @@
 import Command from "../../core/Command";
-import {Message, MessageEmbed, Permissions} from "discord.js";
+import {Message, MessageEmbed} from "discord.js";
 import {getUserFromMention} from "../../core/Util";
 
 export default class KickCommand extends Command {
   public name = 'kick';
   public description = 'Kicks a user from your guild.';
   public permissions = [
-    Permissions.FLAGS.KICK_MEMBERS
+    <const>'KICK_MEMBERS'
   ];
 
   public usage = '<member> [...reason]';

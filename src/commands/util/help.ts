@@ -34,8 +34,16 @@ export default class HelpCommand extends Command {
       embed.setDescription(
         command.description ?? 'This command has no description'
       );
-      embed.addField('Permissions Required', '`' + command.permissions.join('`, `') + '`');
-      embed.addField('Usage', command.usage);
+
+      if (command.permissions)
+        embed.addField(
+          'Permissions Required',
+          '`' +
+            command.permissions.join('`, `') +
+          '`'
+        );
+      if (command.usage)
+        embed.addField('Usage', command.usage);
 
       await message.channel.send(embed);
     }
