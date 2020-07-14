@@ -1,19 +1,19 @@
-import Command from "../core/Command";
+import Command from "../../core/Command";
 import {Message, MessageEmbed, TextChannel} from "discord.js";
 import fetch from 'node-fetch';
 import TurndownService from "turndown";
-import {formats, statuses, sources} from "../anilist";
+import {formats, statuses, sources} from "../../anilist";
 
-export default class MangaCommand extends Command {
-  public name = 'manga';
-  public description = 'Retrieves information from AniList about a manga.';
+export default class AnimeCommand extends Command {
+  public name = 'anime';
+  public description = 'Retrieves information from AniList about an anime.';
 
   public async run(message: Message, ...args: string[]) {
     const name = args.join(' ');
 
     const query = `
       query ($name: String) {
-        Media (search: $name, type: MANGA) {
+        Media (search: $name, type: ANIME) {
           id
           title {
             english
@@ -25,8 +25,8 @@ export default class MangaCommand extends Command {
           description (asHtml: false)
           startDate { year month day }
           endDate { year month day }
-          chapters
-          volumes
+          episodes
+          studios (isMain: true) { nodes { name } }
           source
           bannerImage
           coverImage { medium color }
@@ -54,15 +54,15 @@ export default class MangaCommand extends Command {
 
     const res = await fetch(url, options);
     const { data: { Media: media } } = await res.json();
-
+   
     if (media == null) {
-      throw 'No such manga found!';
+      throw 'No such anime found!';
     }
 
     // @ts-ignore
     const channel: TextChannel = await message.channel.fetch();
     if (!channel.nsfw && media.isAdult) {
-      throw 'This manga is flagged as NSFW. To view it, please re-run this command in an NSFW channel.';
+      throw 'This anime is flagged as NSFW. To view it, please re-run this command in an NSFW channel.';
     }
 
     const turndown = new TurndownService();
@@ -91,13 +91,8 @@ export default class MangaCommand extends Command {
           inline: true
         },
         {
-          name: 'Chapters',
-          value: media.chapters,
-          inline: true
-        },
-        {
-          name: 'Volumes',
-          value: media.volumes,
+          name: 'Episodes',
+          value: media.episodes,
           inline: true
         },
         {
@@ -108,6 +103,11 @@ export default class MangaCommand extends Command {
         {
           name: 'Score',
           value: media.meanScore,
+          inline: true
+        },
+        {
+          name: 'Main Studio',
+          value: media.studios.nodes[0].name,
           inline: true
         },
         {

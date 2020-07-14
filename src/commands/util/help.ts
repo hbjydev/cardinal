@@ -1,4 +1,4 @@
-import Command from "../core/Command";
+import Command from "../../core/Command";
 import { Message, MessageEmbed } from "discord.js";
 
 export default class HelpCommand extends Command {
