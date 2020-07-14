@@ -1,4 +1,5 @@
 import { MessageEmbed } from 'discord.js';
+import { truncateString } from './Util';
 
 /**
  * Creates an error notification embed.
@@ -18,7 +19,7 @@ export default function errorEmbed (error: string | Error): MessageEmbed {
     embed.addField(
       'Stack Trace',
       error.stack ?
-        'To disable this field, ensure your bot is running with its `NODE_ENV` set to `production`.\n```\n' + error.stack + '\n```' :
+        'To disable this field, ensure your bot is running with its `NODE_ENV` set to `production`.\n```\n' + truncateString(error.stack, 900) + '\n```' :
         'None provided.'
     );
   }

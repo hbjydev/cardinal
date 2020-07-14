@@ -8,6 +8,8 @@ export default class BanCommand extends Command {
   public permissions = [
     Permissions.FLAGS.BAN_MEMBERS
   ];
+
+  public usage = '<member> [...reason]';
   
   public async run(message: Message, ...args: string[]): Promise<void> {
     const [ userMention, ...reasonArr ] = args;

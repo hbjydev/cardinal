@@ -8,6 +8,8 @@ export default class MangaCommand extends Command {
   public name = 'manga';
   public description = 'Retrieves information from AniList about a manga.';
 
+  public usage = '<name>';
+
   public async run(message: Message, ...args: string[]) {
     const name = args.join(' ');
 

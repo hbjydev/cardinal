@@ -9,6 +9,8 @@ export default class ShortenCommand extends Command {
   public name = 'shorten';
   public description = 'Shortens a URL given using [linkd.pw](https://linkd.pw).';
 
+  public usage = '<url>';
+
   public async run(message: Message, ...args: string[]) {
     const url = args[0];
 

@@ -8,6 +8,8 @@ export default class AnimeCommand extends Command {
   public name = 'anime';
   public description = 'Retrieves information from AniList about an anime.';
 
+  public usage = '<name>';
+
   public async run(message: Message, ...args: string[]) {
     const name = args.join(' ');
 

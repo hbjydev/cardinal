@@ -5,6 +5,8 @@ export default class HelpCommand extends Command {
   public name = 'help';
   public description = 'Provides information about Cardinal\'s commands.';
 
+  public usage = '[command]';
+
   public async run(message: Message, ...args: string[]) {
     if (args.length == 0) {
       const commands = this.cardinal.registry.commands.keys();
@@ -32,6 +34,8 @@ export default class HelpCommand extends Command {
       embed.setDescription(
         command.description ?? 'This command has no description'
       );
+      embed.addField('Permissions Required', '`' + command.permissions.join('`, `') + '`');
+      embed.addField('Usage', command.usage);
 
       await message.channel.send(embed);
     }

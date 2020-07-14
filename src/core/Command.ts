@@ -6,8 +6,9 @@ import {error, info, warn} from "./Logger";
 export default class Command {
 
   public name!: string;
-  public description!: string;
+  public description!: string | undefined;
   public permissions!: PermissionResolvable[];
+  public usage!: string | undefined;
 
   public constructor(protected cardinal: Cardinal) {}
 
@@ -20,22 +21,21 @@ export default class Command {
   };
 
   public async call(message: Message, ...args: string[]): Promise<void> {
+    info(`Called: ${message.author.username}#${message.author.discriminator} (ID ${message.author.id})`, this.name);
+    if(message.guild) {
+      info(`Command called from guild ${message.guild.id}`, this.name);
+    } else {
+      info(`Command called from DMs`);
+    }
     try {
-      info(`Called: ${message.author.username}#${message.author.discriminator} (ID ${message.author.id})`, this.name);
-      if(message.guild) {
-        info(`Command called from guild ${message.guild.id}`, this.name);
-      } else {
-        info(`Command called from DMs`);
-      }
       await this.run(message, ...args);
-      await message.react('✅');
     } catch(e) {
       error(e.message ?? e, this.name);
       const embed = errorEmbed(e);
       message.channel.send(embed);
       await message.react('❌');
-      return;
     }
-  }
 
+    await message.react('✅');
+  }
 }
