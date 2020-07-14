@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import errorEmbed from "../ErrorEmbed";
 import Event from "../Event";
+import {captureException} from "@sentry/node";
 
 export default class Dispatcher extends Event {
   public event = 'message';
@@ -30,6 +31,9 @@ export default class Dispatcher extends Event {
       }
     } catch (e) {
       const embed = errorEmbed(e);
+      if (typeof e !== 'string' && process.env.SENTRY_DSN !== null) {
+        captureException(e as Error);
+      }
       message.channel.send(embed);
       await message.react('❌');
       return;
