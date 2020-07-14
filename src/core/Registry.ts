@@ -1,7 +1,8 @@
-import { Collection } from 'discord.js';
+import { Collection, ClientEvents } from 'discord.js';
 import Command from './Command';
 import Cardinal from './Cardinal';
-import {info} from './Logger';
+import {info, error} from './Logger';
+import Event from './Event';
 
 export default class CardinalRegistry {
   
@@ -20,6 +21,22 @@ export default class CardinalRegistry {
     }
 
     info(`Loaded ${this.commands.size} commands.`);
+  }
+
+  public registerEvents(...events: (typeof Event)[]) {
+    for(const event of events) {
+      const ev = new event(this.cardinal);
+      info(`Loading event handler for \`${ev.event}\` with description \`${ev.description}\``);
+      try {
+        this.cardinal.client.on(
+          ev.event as keyof ClientEvents,
+          (...args: unknown[]) => ev.run(...args)
+        );
+      } catch (e) {
+        error(e.message ?? e);
+        process.exit(1);
+      }
+    }
   }
 
 }
