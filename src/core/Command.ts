@@ -31,7 +31,7 @@ export default class Command {
       await message.react('✅');
     } catch(e) {
       error(e.message ?? e, this.name);
-      const embed = errorEmbed(e.message ?? e);
+      const embed = errorEmbed(e);
       message.channel.send(embed);
       await message.react('❌');
       return;

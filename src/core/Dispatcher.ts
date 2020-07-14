@@ -27,7 +27,7 @@ const onMessage: (cardinal: Cardinal) => ((message: Message) => Promise<void>) =
           });
         }
       } catch (e) {
-        const embed = errorEmbed(e.message ?? e);
+        const embed = errorEmbed(e);
         message.channel.send(embed);
         await message.react('❌');
         return;

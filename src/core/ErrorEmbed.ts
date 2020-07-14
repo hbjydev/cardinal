@@ -7,12 +7,21 @@ import { MessageEmbed } from 'discord.js';
  *
  * @returns MessageEmbed
  */
-export default function errorEmbed (message: string): MessageEmbed {
+export default function errorEmbed (error: string | Error): MessageEmbed {
   const embed = new MessageEmbed();
 
   embed.setTitle('Something went wrong!');
-  embed.setDescription(message);
+  embed.setDescription(typeof error == 'string' ? error : error.message);
   embed.setColor('#ff0000');
+
+  if (process.env.NODE_ENV !== 'production' && typeof error !== 'string') {
+    embed.addField(
+      'Stack Trace',
+      error.stack ?
+        'To disable this field, ensure your bot is running with its `NODE_ENV` set to `production`.\n```\n' + error.stack + '\n```' :
+        'None provided.'
+    );
+  }
 
   return embed;
 }
