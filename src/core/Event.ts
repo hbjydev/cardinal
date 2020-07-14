@@ -1,15 +1,14 @@
 import Cardinal from "./Cardinal";
+import {ClientEvents} from "discord.js";
 
-export default class Event {
-  public event!: string;
+type MaybePromise<T> = T | Promise<T>;
+
+export default abstract class Event<T extends keyof ClientEvents> {
+  public event!: T;
   public description!: string;
 
-  public cardinal: Cardinal;
+  public constructor (protected cardinal: Cardinal) {}
 
-  public constructor (cardinal: Cardinal) {
-    this.cardinal = cardinal;
-  }
-
-  public async run(...params: unknown[]): Promise<void> {}
+  public abstract run(...params: ClientEvents[T]): MaybePromise<void>
 }
 

@@ -3,8 +3,8 @@ import errorEmbed from "../ErrorEmbed";
 import Event from "../Event";
 import {captureException} from "@sentry/node";
 
-export default class Dispatcher extends Event {
-  public event = 'message';
+export default class Dispatcher extends Event<'message'> {
+  public event = <const>'message';
   public description = "Handles command dispatching.";
 
   public async run(message: Message) {

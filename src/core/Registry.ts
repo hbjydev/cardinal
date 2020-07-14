@@ -4,6 +4,8 @@ import Cardinal from './Cardinal';
 import {info, error} from './Logger';
 import Event from './Event';
 
+type EventConstructor = new(cardinal: Cardinal) => Event<any>;
+
 export default class CardinalRegistry {
   
   public commands = new Collection<String, Command>();
@@ -23,7 +25,7 @@ export default class CardinalRegistry {
     info(`Loaded ${this.commands.size} commands.`);
   }
 
-  public registerEvents(...events: (typeof Event)[]) {
+  public registerEvents(...events: EventConstructor[]) {
     for(const event of events) {
       const ev = new event(this.cardinal);
       info(`Loading event handler for \`${ev.event}\` with description \`${ev.description}\``);
