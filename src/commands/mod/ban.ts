@@ -6,7 +6,7 @@ export default class BanCommand extends Command {
   public name = 'ban';
   public description = 'Bans a user from your guild.';
   public permissions = [
-    <const>'BAN_MEMBERS'
+    'BAN_MEMBERS'
   ];
 
   public usage = '<member> [...reason]';

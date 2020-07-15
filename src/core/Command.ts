@@ -1,4 +1,4 @@
-import { Message, PermissionFlags } from "discord.js";
+import { Message, PermissionString } from "discord.js";
 import errorEmbed from "./ErrorEmbed";
 import Cardinal from "./Cardinal";
 import {error, info, warn} from "./Logger";
@@ -7,7 +7,7 @@ export default class Command {
 
   public name!: string;
   public description!: string | undefined;
-  public permissions!: (keyof PermissionFlags & 'BOT_OWNER')[];
+  public permissions!: (PermissionString & 'BOT_OWNER')[];
   public usage!: string | undefined;
 
   public constructor(protected cardinal: Cardinal) {}
