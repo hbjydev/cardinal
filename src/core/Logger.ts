@@ -9,4 +9,9 @@ const error = (text: string, lead = 'error') =>
 const warn = (text: string, lead = 'warn') =>
   console.log(`${chalk.yellow(lead)} ${chalk.gray('=>')} ${text}`);
 
-export { info, error, warn };
+const debug = (text: string, lead = 'debug') =>
+  process.env.NODE_ENV !== 'production' ?
+    console.log(`${chalk.grey(lead)} ${chalk.gray('=>')} ${text}`) :
+    null;
+
+export { info, error, warn, debug };
