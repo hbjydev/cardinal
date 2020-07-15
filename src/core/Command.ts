@@ -7,7 +7,7 @@ export default class Command {
 
   public name!: string;
   public description!: string | undefined;
-  public permissions!: (keyof PermissionFlags)[];
+  public permissions!: (keyof PermissionFlags & 'BOT_OWNER')[];
   public usage!: string | undefined;
 
   public constructor(protected cardinal: Cardinal) {}

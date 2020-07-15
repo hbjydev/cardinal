@@ -22,13 +22,18 @@ export default class Dispatcher extends Event<'message'> {
     }
 
     try {
-      if(message.guild) {
-        const perms = command.permissions ?? [];
-        perms.forEach((perm) => {
+      const perms = command.permissions ?? [];
+      perms.forEach((perm) => {
+        if (
+          perm == 'BOT_OWNER' &&
+          !this.cardinal.owners.includes(message.author.id)
+        ) {
+          throw 'This command is restricted to bot owners only.';
+        } else if(message.guild) {
           if(!message.member?.hasPermission(perm))
             throw 'You do not have permission to use this command.';
-        });
-      }
+        }
+      });
     } catch (e) {
       const embed = errorEmbed(e);
       if (typeof e !== 'string' && process.env.SENTRY_DSN !== null) {

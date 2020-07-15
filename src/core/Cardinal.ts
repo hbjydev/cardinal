@@ -8,7 +8,7 @@ export default class Cardinal {
   public client = new Client();
   public registry = new CardinalRegistry(this);
 
-  public constructor(public prefix: string) {
+  public constructor(public prefix: string, public owners: string[]) {
     info('Initializing Cardinal...', 'init');
   }
 

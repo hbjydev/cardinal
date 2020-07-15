@@ -16,7 +16,9 @@ if (process.env.SENTRY_DSN !== null) {
 }
 
 // Create an instance of the bot
-const bot = new Cardinal(process.env.PREFIX ?? '!');
+const bot = new Cardinal(
+  process.env.PREFIX ?? '!',
+  process.env.OWNERS.split(',') ?? []);
 
 // Register commands
 bot.registry.registerCommands(
