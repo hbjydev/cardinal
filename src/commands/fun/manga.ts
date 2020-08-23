@@ -1,11 +1,12 @@
-import Command from "../../core/Command";
-import {Message, MessageEmbed, TextChannel} from "discord.js";
+import { Message, MessageEmbed, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
-import TurndownService from "turndown";
-import {formats, statuses, sources} from "../../anilist";
+import TurndownService from 'turndown';
+import Command from '../../core/Command';
+import { formats, statuses, sources } from '../../anilist';
 
 export default class MangaCommand extends Command {
   public name = 'manga';
+
   public description = 'Retrieves information from AniList about a manga.';
 
   public usage = '<name>';
@@ -41,17 +42,17 @@ export default class MangaCommand extends Command {
       }
     `;
     const variables = {
-      name
+      name,
     };
 
-    const url = `https://graphql.anilist.co`;
+    const url = 'https://graphql.anilist.co';
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        Accept: 'application/json',
       },
-      body: JSON.stringify({ query, variables })
+      body: JSON.stringify({ query, variables }),
     };
 
     const res = await fetch(url, options);
@@ -70,57 +71,57 @@ export default class MangaCommand extends Command {
     const turndown = new TurndownService();
     const description = truncateString(
       turndown.turndown(media.description),
-      300
+      300,
     );
 
     const embed = new MessageEmbed({
-      title: media.title.english ?
-        media.title.english :
-        media.title.romaji ?
-          media.title.romaji :
-          media.title.native,
+      title: media.title.english
+        ? media.title.english
+        : media.title.romaji
+          ? media.title.romaji
+          : media.title.native,
       url: media.siteUrl,
       description,
       fields: [
         {
           name: 'Format',
           value: formats[media.format],
-          inline: true
+          inline: true,
         },
         {
           name: 'Status',
           value: statuses[media.status],
-          inline: true
+          inline: true,
         },
         {
           name: 'Chapters',
           value: media.chapters,
-          inline: true
+          inline: true,
         },
         {
           name: 'Volumes',
           value: media.volumes,
-          inline: true
+          inline: true,
         },
         {
           name: 'Source',
           value: sources[media.source],
-          inline: true
+          inline: true,
         },
         {
           name: 'Score',
           value: media.meanScore,
-          inline: true
+          inline: true,
         },
         {
           name: 'Start Date (Y/M/D)',
           value: parseFuzzyDate(media.startDate),
-          inline: true
+          inline: true,
         },
         {
           name: 'End Date (Y/M/D)',
           value: media.endDate ? parseFuzzyDate(media.endDate) : 'N/a',
-          inline: true
+          inline: true,
         },
         {
           name: 'Tags',
@@ -128,51 +129,49 @@ export default class MangaCommand extends Command {
         },
         {
           name: 'Genres',
-          value: media.genres.join(', ')
-        }
+          value: media.genres.join(', '),
+        },
       ],
       footer: {
         text: 'Information provided by Anilist (anilist.co).',
-        icon_url: 'https://avatars2.githubusercontent.com/u/18018524?s=128&v=4'
+        icon_url: 'https://avatars2.githubusercontent.com/u/18018524?s=128&v=4',
       },
-      color: media.coverImage.color
+      color: media.coverImage.color,
     });
     embed.setThumbnail(media.coverImage.medium);
     embed.setImage(media.bannerImage);
 
     message.channel.send(embed);
   }
-} 
+}
 
 interface FuzzyDate {
   year: string;
   month: string;
   day: string;
 }
-const parseFuzzyDate =
-  ({ year, month, day }: FuzzyDate) => `${year}/${month}/${day}`;
+const parseFuzzyDate = ({ year, month, day }: FuzzyDate) => `${year}/${month}/${day}`;
 
-function truncateString(str: string, len: number, append = '...')
-{
+function truncateString(str: string, len: number, append = '...') {
   let newLength;
-   
+
   if (append.length > 0) {
-    append = " " + append;
+    append = ` ${append}`;
   }
 
   if ((str.indexOf(' ') + append).length > len) {
     return str;
   }
-   
-  (str.length + append.length) > len ?
-    newLength = len-append.length :
-    newLength = str.length;
-   
-  let tempString = str.substring(0, newLength);  //cut the string at the new length
-  tempString = tempString.replace(/\s+\S*$/, ""); //find the last space that appears before the substringed text
-   
+
+  (str.length + append.length) > len
+    ? newLength = len - append.length
+    : newLength = str.length;
+
+  let tempString = str.substring(0, newLength); // cut the string at the new length
+  tempString = tempString.replace(/\s+\S*$/, ''); // find the last space that appears before the substringed text
+
   if (append.length > 0) {
-    tempString = tempString + append;
+    tempString += append;
   }
   return tempString;
 }

@@ -1,11 +1,11 @@
 import { Client } from 'discord.js';
-import {CardinalRegistry} from '.';
+import { CardinalRegistry } from '.';
 import Dispatcher from './events/Dispatcher';
-import {info, error} from './Logger';
+import { info, error } from './Logger';
 
 export default class Cardinal {
-
   public client = new Client();
+
   public registry = new CardinalRegistry(this);
 
   public constructor(public prefix: string, public owners: string[]) {
@@ -29,6 +29,4 @@ export default class Cardinal {
       process.exit(1);
     }
   }
-
 }
-

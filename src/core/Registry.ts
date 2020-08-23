@@ -1,19 +1,18 @@
 import { Collection, ClientEvents } from 'discord.js';
 import Command from './Command';
 import Cardinal from './Cardinal';
-import {info, error} from './Logger';
+import { info, error } from './Logger';
 import Event from './Event';
 
 type EventConstructor = new(cardinal: Cardinal) => Event<any>;
 
 export default class CardinalRegistry {
-  
   public commands = new Collection<String, Command>();
 
-  public constructor (private cardinal: Cardinal) {}
+  public constructor(private cardinal: Cardinal) {}
 
   public registerCommands(...commands: (typeof Command)[]) {
-    for(const command of commands) {
+    for (const command of commands) {
       const cmd = new command(this.cardinal);
       info(`Loading command ${cmd.name}...`);
       info(`Registering command ${cmd.name}...`);
@@ -26,13 +25,13 @@ export default class CardinalRegistry {
   }
 
   public registerEvents(...events: EventConstructor[]) {
-    for(const event of events) {
+    for (const event of events) {
       const ev = new event(this.cardinal);
       info(`Loading event handler for \`${ev.event}\` with description \`${ev.description}\``);
       try {
         this.cardinal.client.on(
           ev.event as keyof ClientEvents,
-          (...args: unknown[]) => ev.run(...args)
+          (...args: unknown[]) => ev.run(...args),
         );
       } catch (e) {
         error(e.message ?? e);
@@ -40,5 +39,4 @@ export default class CardinalRegistry {
       }
     }
   }
-
 }

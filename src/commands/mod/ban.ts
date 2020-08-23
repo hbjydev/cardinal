@@ -1,29 +1,29 @@
-import Command from "../../core/Command";
-import {Message, MessageEmbed} from "discord.js";
-import {getUserFromMention} from "../../core/Util";
+import { Message, MessageEmbed, PermissionString } from 'discord.js';
+import Command from '../../core/Command';
+import { getUserFromMention } from '../../core/Util';
 
 export default class BanCommand extends Command {
   public name = 'ban';
+
   public description = 'Bans a user from your guild.';
+
   public permissions = [
-    'BAN_MEMBERS'
-  ];
+    <const>'BAN_MEMBERS',
+  ] as (PermissionString & 'BOT_OWNER')[];
 
   public usage = '<member> [...reason]';
-  
+
   public async run(message: Message, ...args: string[]): Promise<void> {
-    const [ userMention, ...reasonArr ] = args;
-    if(!userMention.match(/<@!.*>/g)) {
-      throw 'The first argument in the ban command should be a user mention.';
+    const [userMention, ...reasonArr] = args;
+    if (!userMention.match(/<@!.*>/g)) {
+      throw new Error('The first argument in the ban command should be a user mention.');
     }
 
     const user = getUserFromMention(this.cardinal.client, userMention);
-    if(!user)
-      throw 'That user either does not exist or is not a member of this guild.';
-    
+    if (!user) throw new Error('That user either does not exist or is not a member of this guild.');
+
     const member = message.guild?.member(user);
-    if(!member)
-      throw 'That user either does not exist or is not a member of this guild.';
+    if (!member) throw new Error('That user either does not exist or is not a member of this guild.');
 
     const reason = reasonArr.join(' ').trim();
 

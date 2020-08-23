@@ -2,7 +2,7 @@ import 'dotenv/config';
 import * as Sentry from '@sentry/node';
 import { info } from './core/Logger';
 
-import Cardinal from "./core";
+import Cardinal from './core';
 import HelpCommand from './commands/util/help';
 import KickCommand from './commands/mod/kick';
 import BanCommand from './commands/mod/ban';
@@ -18,7 +18,8 @@ if (process.env.SENTRY_DSN !== null) {
 // Create an instance of the bot
 const bot = new Cardinal(
   process.env.PREFIX ?? '!',
-  process.env.OWNERS.split(',') ?? []);
+  (process.env.OWNERS ?? '').split(',') ?? [],
+);
 
 // Register commands
 bot.registry.registerCommands(
@@ -32,9 +33,8 @@ bot.registry.registerCommands(
 
   // Anime/Manga commands
   AnimeCommand,
-  MangaCommand
+  MangaCommand,
 );
 
 // Authenticate with Discord.
 bot.login();
-

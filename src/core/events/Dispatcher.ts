@@ -1,22 +1,26 @@
-import { Message } from "discord.js";
-import errorEmbed from "../ErrorEmbed";
-import Event from "../Event";
-import {captureException} from "@sentry/node";
+import { Message } from 'discord.js';
+import { captureException } from '@sentry/node';
+import errorEmbed from '../ErrorEmbed';
+import Event from '../Event';
+import { info } from '../Logger';
 
 export default class Dispatcher extends Event<'message'> {
   public event = <const>'message';
-  public description = "Handles command dispatching.";
+
+  public description = 'Handles command dispatching.';
 
   public async run(message: Message) {
     if (message.author.bot) return;
     if (!message.content.startsWith(this.cardinal.prefix)) return;
 
-    const [ commandName, ...args ] =
-      message.content.substring(this.cardinal.prefix.length).split(' ');
+    message.channel.startTyping();
+    const start = Date.now();
+
+    const [commandName, ...args] = message.content.substring(this.cardinal.prefix.length).split(' ');
 
     const command = this.cardinal.registry.commands.get(commandName);
 
-    if(!command) {
+    if (!command) {
       await message.react('❌');
       return;
     }
@@ -25,13 +29,12 @@ export default class Dispatcher extends Event<'message'> {
       const perms = command.permissions ?? [];
       perms.forEach((perm) => {
         if (
-          perm == 'BOT_OWNER' &&
-          !this.cardinal.owners.includes(message.author.id)
+          perm === 'BOT_OWNER'
+          && !this.cardinal.owners.includes(message.author.id)
         ) {
           throw 'This command is restricted to bot owners only.';
-        } else if(message.guild) {
-          if(!message.member?.hasPermission(perm))
-            throw 'You do not have permission to use this command.';
+        } else if (message.guild) {
+          if (!message.member?.hasPermission(perm)) throw 'You do not have permission to use this command.';
         }
       });
     } catch (e) {
@@ -45,6 +48,8 @@ export default class Dispatcher extends Event<'message'> {
     }
 
     await command?.call(message, ...args);
+
+    info(`Finished: ${(Date.now() - start)}ms`, command?.name);
+    message.channel.stopTyping();
   }
 }
-
