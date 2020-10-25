@@ -16,14 +16,14 @@ export default class KickCommand extends Command {
   public async run(message: Message, ...args: string[]): Promise<void> {
     const [userMention, ...reasonArr] = args;
     if (!userMention.match(/<@!.*>/g)) {
-      throw 'The first argument in the kick command should be a user mention.';
+      throw new Error('The first argument in the kick command should be a user mention.');
     }
 
     const user = getUserFromMention(this.cardinal.client, userMention);
-    if (!user) throw 'That user either does not exist or is not a member of this guild.';
+    if (!user) throw new Error('That user either does not exist or is not a member of this guild.');
 
     const member = message.guild?.member(user);
-    if (!member) throw 'That user either does not exist or is not a member of this guild.';
+    if (!member) throw new Error('That user either does not exist or is not a member of this guild.');
 
     const reason = reasonArr.join(' ').trim();
 

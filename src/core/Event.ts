@@ -1,5 +1,5 @@
 import { ClientEvents } from 'discord.js';
-import Cardinal from './Cardinal';
+import { Cardinal } from './index';
 
 type MaybePromise<T> = T | Promise<T>;
 

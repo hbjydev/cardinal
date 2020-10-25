@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import TurndownService from 'turndown';
 import Command from '../../core/Command';
 import { formats, statuses, sources } from '../../anilist';
+import { truncateString, parseFuzzyDate } from '../../core/Util';
 
 export default class AnimeCommand extends Command {
   public name = 'anime';
@@ -11,7 +12,7 @@ export default class AnimeCommand extends Command {
 
   public usage = '<name>';
 
-  public async run(message: Message, ...args: string[]) {
+  public run = async (message: Message, ...args: string[]) => {
     const name = args.join(' ');
 
     const query = `
@@ -142,36 +143,5 @@ export default class AnimeCommand extends Command {
     embed.setImage(media.bannerImage);
 
     message.channel.send(embed);
-  }
-}
-
-interface FuzzyDate {
-  year: string;
-  month: string;
-  day: string;
-}
-const parseFuzzyDate = ({ year, month, day }: FuzzyDate) => `${year}/${month}/${day}`;
-
-function truncateString(str: string, len: number, append = '...') {
-  let newLength;
-
-  if (append.length > 0) {
-    append = ` ${append}`;
-  }
-
-  if ((str.indexOf(' ') + append).length > len) {
-    return str;
-  }
-
-  (str.length + append.length) > len
-    ? newLength = len - append.length
-    : newLength = str.length;
-
-  let tempString = str.substring(0, newLength); // cut the string at the new length
-  tempString = tempString.replace(/\s+\S*$/, ''); // find the last space that appears before the substringed text
-
-  if (append.length > 0) {
-    tempString += append;
-  }
-  return tempString;
+  };
 }

@@ -32,9 +32,9 @@ export default class Dispatcher extends Event<'message'> {
           perm === 'BOT_OWNER'
           && !this.cardinal.owners.includes(message.author.id)
         ) {
-          throw 'This command is restricted to bot owners only.';
+          throw new Error('This command is restricted to bot owners only.');
         } else if (message.guild) {
-          if (!message.member?.hasPermission(perm)) throw 'You do not have permission to use this command.';
+          if (!message.member?.hasPermission(perm)) throw new Error('You do not have permission to use this command.');
         }
       });
     } catch (e) {

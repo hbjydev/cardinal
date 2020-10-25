@@ -1,6 +1,6 @@
 import { Client } from 'discord.js';
 import { CardinalRegistry } from '.';
-import Dispatcher from './events/Dispatcher';
+import { Dispatcher } from './events/index';
 import { info, error } from './Logger';
 
 export default class Cardinal {

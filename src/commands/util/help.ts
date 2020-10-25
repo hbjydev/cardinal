@@ -9,13 +9,13 @@ export default class HelpCommand extends Command {
   public usage = '[command]';
 
   public async run(message: Message, ...args: string[]) {
-    if (args.length == 0) {
+    if (args.length === 0) {
       const commands = this.cardinal.registry.commands.keys();
 
-      const commandNames = [];
-      for (const cmd of commands) {
-        commandNames.push(cmd);
-      }
+      const commandNames: string[] = [];
+      Array(...commands).forEach((cmd) => {
+        commandNames.push(cmd.toString());
+      });
 
       const embed = new MessageEmbed();
       embed.setColor('#7fffd4');
@@ -27,7 +27,7 @@ export default class HelpCommand extends Command {
       const [commandName] = args;
       const command = this.cardinal.registry.commands.get(commandName);
 
-      if (!command) throw 'No such command found, can\'t produce help!';
+      if (!command) throw new Error('No such command found, can\'t produce help!');
 
       const embed = new MessageEmbed();
       embed.setColor('#7fffd4');

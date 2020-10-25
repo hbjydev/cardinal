@@ -12,17 +12,17 @@ export default class ShortenCommand extends Command {
 
   public usage = '<url>';
 
-  public async run(message: Message, ...args: string[]) {
+  public run = async (message: Message, ...args: string[]) => {
     const url = args[0];
 
-    if (!linkRegex.test(url)) throw 'Please pass a valid HTTP(S) URL.';
+    if (!linkRegex.test(url)) throw new Error('Please pass a valid HTTP(S) URL.');
 
     const res = await fetch('https://linkd.pw/url', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url }),
     });
-    if (!res.ok) throw 'Something went wrong! Please try again!';
+    if (!res.ok) throw new Error('Something went wrong! Please try again!');
 
     const data = await res.json();
 
@@ -35,5 +35,5 @@ export default class ShortenCommand extends Command {
       .setFooter('Link shortening powered by linkd.pw');
 
     message.channel.send(embed);
-  }
+  };
 }
