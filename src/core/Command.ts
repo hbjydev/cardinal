@@ -16,6 +16,7 @@ export default class Command {
 
   public constructor(protected cardinal: Cardinal) {}
 
+  // eslint-disable-next-line
   public async run(message: Message, ...args: string[]): Promise<void> {
     warn('Command has no run function.', this.name);
     throw new Error('That command hasn\'t been implemented yet!');
