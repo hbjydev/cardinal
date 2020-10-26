@@ -8,6 +8,7 @@ import KickCommand from './commands/mod/kick';
 import BanCommand from './commands/mod/ban';
 import AnimeCommand from './commands/fun/anime';
 import MangaCommand from './commands/fun/manga';
+import EvalCommand from './commands/util/eval';
 
 if (process.env.SENTRY_DSN !== null) {
   info('Initializing Sentry integration...', 'sentry');
@@ -24,6 +25,7 @@ const bot = new Cardinal(
 bot.registry.registerCommands(
   // Utility Commands
   HelpCommand,
+  EvalCommand,
 
   // Moderation commands
   KickCommand,
