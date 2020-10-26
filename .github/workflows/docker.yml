@@ -3,6 +3,7 @@ name: Docker
 on:
   push:
     branches: ['*']
+    tags: ['*']
 
 jobs:
   build_push:
