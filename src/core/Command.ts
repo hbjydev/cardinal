@@ -1,7 +1,7 @@
 import { Message, PermissionString } from 'discord.js';
 import errorEmbed from './ErrorEmbed';
 import Cardinal from './Cardinal';
-import { error, info, warn } from './Logger';
+import { error, warn, debug } from './Logger';
 
 export type Permission = (PermissionString & 'BOT_OWNER')[];
 
@@ -23,15 +23,15 @@ export default class Command {
   }
 
   public async init(): Promise<void> {
-    info(`Command \`${this.name}\` has no init function.`, 'init');
+    debug(`Command \`${this.name}\` has no init function.`, 'init');
   }
 
   public async call(message: Message, ...args: string[]): Promise<void> {
-    info(`Called: ${message.author.username}#${message.author.discriminator} (ID ${message.author.id})`, this.name);
+    debug(`Called: ${message.author.username}#${message.author.discriminator} (ID ${message.author.id})`, this.name);
     if (message.guild) {
-      info(`Command called from guild ${message.guild.id}`, this.name);
+      debug(`Command called from guild ${message.guild.id}`, this.name);
     } else {
-      info('Command called from DMs');
+      debug('Command called from DMs');
     }
     try {
       await this.run(message, ...args);

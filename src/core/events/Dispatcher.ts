@@ -3,6 +3,7 @@ import { captureException } from '@sentry/node';
 import errorEmbed from '../ErrorEmbed';
 import Event from '../Event';
 import { info } from '../Logger';
+import MacroService from '../../services/MacroService';
 
 export default class Dispatcher extends Event<'message'> {
   public event = <const>'message';
@@ -21,6 +22,18 @@ export default class Dispatcher extends Event<'message'> {
     const command = this.cardinal.registry.commands.get(commandName);
 
     if (!command) {
+      if (message.guild) { 
+        const ms = new MacroService(message.guild);
+        const macros = await ms.getGuildMacros();
+        const macro = macros.find(m => m.name == commandName);
+
+        if (macro !== undefined) {
+          message.channel.send(macro.content!!);
+          message.channel.stopTyping();
+          return;
+        }
+      }
+
       await message.react('❌');
       return;
     }

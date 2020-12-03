@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "scripts": {
     "start": "node .",
-    "build": "tsc"
+    "build": "tsc",
+    "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./src/ormconfig.ts"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
+    "ts-node": "^9.1.0",
     "typescript": "^3.9.6"
   },
   "dependencies": {
@@ -40,6 +42,8 @@
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0",
-    "turndown": "^6.0.0"
+    "pg": "^8.5.1",
+    "turndown": "^6.0.0",
+    "typeorm": "^0.2.29"
   }
 }

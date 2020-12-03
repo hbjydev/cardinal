@@ -20,4 +20,4 @@ COPY --from=build /build/package-lock.json .
 
 RUN npm install --only=prod
 
-CMD [ "npm", "start" ]
+CMD [ "node", "build/index.js" ]

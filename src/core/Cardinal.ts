@@ -2,6 +2,7 @@ import { Client } from 'discord.js';
 import { CardinalRegistry } from '.';
 import { Dispatcher } from './events/index';
 import { info, error } from './Logger';
+import { createConnection, ConnectionOptions } from 'typeorm';
 
 export default class Cardinal {
   public client = new Client();
@@ -26,6 +27,21 @@ export default class Cardinal {
     } catch (e) {
       error('Something went wrong calling Cardinal#login().');
       error(e.message);
+      process.exit(1);
+    }
+  }
+
+  /**
+   * Connects the bot to a database.
+   *
+   * @param dbUri The database URI to connect using.
+   */
+  public async connectDatabase(config: ConnectionOptions) {
+    try {
+      await createConnection(config);
+    } catch (e) {
+      error('Failed to connect to database.', 'db');
+      error(e.message, 'db');
       process.exit(1);
     }
   }
