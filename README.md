@@ -23,3 +23,7 @@ $ npm install
 $ npm run build
 $ npm start
 ```
+
+Or, for deployments to Kubernetes, there is an [official Helm chart](https://github.com/hbjydev/helm-charts/tree/main/charts/cardinal) available.
+
+> Be aware, the Helm chart does *not* include a PostgreSQL database, you will have to provide a connection URI as an overridden value. See the repo for that information.
