@@ -28,7 +28,7 @@ export default class Dispatcher extends Event<'message'> {
     const command = this.cardinal.registry.commands.get(commandName);
 
     if (!command) {
-      if (message.guild) { 
+      if (message.guild) {
         const ms = new MacroService(message.guild);
         const macro = await ms.getMacro(commandName);
 

@@ -145,4 +145,3 @@ export default class MangaCommand extends Command {
     message.channel.send(embed);
   };
 }
-

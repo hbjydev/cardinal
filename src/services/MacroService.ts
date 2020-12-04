@@ -13,7 +13,7 @@ export default class MacroService {
   public async getMacro(name: string): Promise<Macro | undefined> {
     const { result: guild } = await this.guildService.getOrCreateGuild();
     const macros = await Macro.find({ where: { name, guild } });
-    
+
     if (macros.length == 0) {
       return undefined;
     }
@@ -47,7 +47,7 @@ export default class MacroService {
 
       return { existed: true, result: existingMacro };
     }
-  } 
+  }
 
   public async getGuildMacros(name?: string): Promise<Macro[]> {
     const { result: guild } = await this.guildService.getOrCreateGuild();

@@ -12,4 +12,3 @@ export default class Guild extends BaseEntity {
   @OneToMany(() => Macro, m => m.guild)
   public macros?: Promise<Macro[]>;
 }
-

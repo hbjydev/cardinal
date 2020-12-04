@@ -18,5 +18,5 @@ export default class GuildService {
     } else {
       return { existed: true, result: existingGuild };
     }
-  } 
+  }
 }

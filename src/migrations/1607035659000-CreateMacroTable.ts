@@ -18,7 +18,7 @@ export class CreateMacroTable1607035659000 implements MigrationInterface {
       referencedColumnNames: [ 'id' ],
       referencedTableName: 'guilds',
       onDelete: 'CASCADE'
-    }));    
+    }));
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
