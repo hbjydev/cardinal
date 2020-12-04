@@ -1,4 +1,4 @@
-import {Guild} from "discord.js";
+import {Guild, GuildMember} from "discord.js";
 import Macro from "../models/Macro.entity";
 import GuildService from './GuildService';
 
@@ -33,5 +33,17 @@ export default class MacroService {
     const { result: guild } = await this.guildService.getOrCreateGuild();
     const macros = await guild.macros!!;
     return macros;
+  }
+
+  public async tryDeleteGuildMacro(name: string, member: GuildMember): Promise<{ success: boolean, reason?: 'PERMISSIONS' | 'DBERROR' | 'NOEXISTS'}> {
+    if (!member.hasPermission('ADMINISTRATOR')) return { success: false, reason: 'PERMISSIONS' };
+    const { result: guild } = await this.guildService.getOrCreateGuild();
+    const macros = await guild.macros!!;
+    const macro = macros.find(m => m.name == name);
+    if (!macro) return { success: false, reason: 'NOEXISTS' };
+    
+    await macro.remove();
+
+    return { success: true };
   }
 }

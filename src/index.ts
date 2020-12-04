@@ -13,6 +13,7 @@ import MangaCommand from './commands/fun/manga';
 import EvalCommand from './commands/util/eval';
 import ListMacrosCommand from './commands/macros/list';
 import CreateMacroCommand from './commands/macros/create';
+import DeleteMacroCommand from './commands/macros/delete';
 
 if (process.env.SENTRY_DSN !== null) {
   info('Initializing Sentry integration...', 'sentry');
@@ -41,7 +42,8 @@ bot.registry.registerCommands(
 
   // Macro commands
   ListMacrosCommand,
-  CreateMacroCommand
+  CreateMacroCommand,
+  DeleteMacroCommand
 );
 
 bot.connectDatabase(dbConfig);

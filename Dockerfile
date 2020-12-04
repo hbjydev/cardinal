@@ -10,7 +10,7 @@ ADD src ./src
 ADD tsconfig.json .
 RUN npm run build
 
-FROM node:lts-alpine
+FROM node:lts-alpine AS app
 
 WORKDIR /app
 
