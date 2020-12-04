@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   bot:
@@ -7,14 +7,14 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     volumes:
-      - './:/app'
+      - "./:/app"
 
   database:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: '1337H4xx0rz'
+      POSTGRES_PASSWORD: "1337H4xx0rz"
     volumes:
-      - 'dbdata:/var/lib/postgresql/data'
+      - "dbdata:/var/lib/postgresql/data"
 
   adminer:
     image: adminer
