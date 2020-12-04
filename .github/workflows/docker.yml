@@ -1,9 +1,9 @@
-name: Docker
+name: Indev Builds
 
 on: [ 'push' ]
 
 jobs:
-  build_push:
+  build_push_i:
     name: Build & Push
     runs-on: ubuntu-latest
     steps:

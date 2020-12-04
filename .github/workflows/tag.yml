@@ -1,9 +1,9 @@
-name: Docker
+name: Release Builds
 
 on: [ 'release' ]
 
 jobs:
-  build_push:
+  build_push_t:
     name: Build & Push
     runs-on: ubuntu-latest
     steps:
