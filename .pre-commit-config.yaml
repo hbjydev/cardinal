@@ -3,5 +3,20 @@ repos:
   rev: v2.3.0
   hooks:
   - id: check-yaml
+  - id: check-json
+  - id: check-merge-conflict
   - id: end-of-file-fixer
   - id: trailing-whitespace
+- repo: https://github.com/pre-commit/mirrors-eslint
+  rev: v7.14.0
+  hooks:
+  - id: eslint
+    files: \.[jt]s$
+    types: [file]
+    additional_dependencies:
+      - 'eslint'
+      - '@typescript-eslint/eslint-plugin'
+      - '@typescript-eslint/parser'
+      - 'eslint-config-prettier'
+      - 'eslint-plugin-prettier'
+      - 'prettier'
