@@ -4,7 +4,7 @@
     A jack-of-all-trades Discord bot for all your botty needs!
 </p>
 
-<p align="center" style="text-align: center">  
+<p align="center" style="text-align: center">
   <a href="https://github.com/hbjydev/cardinal/actions?query=workflow%3A%22Release+Builds%22">
     <img src="https://github.com/hbjydev/cardinal/workflows/Release%20Builds/badge.svg" />
   </a>
@@ -26,4 +26,4 @@ $ npm start
 
 Or, for deployments to Kubernetes, there is an [official Helm chart](https://github.com/hbjydev/helm-charts/tree/main/charts/cardinal) available.
 
-> Be aware, the Helm chart does *not* include a PostgreSQL database, you will have to provide a connection URI as an overridden value. See the repo for that information.
+> Be aware, the Helm chart does _not_ include a PostgreSQL database, you will have to provide a connection URI as an overridden value. See the repo for that information.
