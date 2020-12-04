@@ -71,7 +71,9 @@ export default class Dispatcher extends Event<'message'> {
         } else if (message.guild) {
           if (!message.member?.hasPermission(perm)) throw new Error('You do not have permission to use this command.');
         }
+
       });
+      await command?.call(message, ...args);
     } catch (e) {
       const embed = errorEmbed(e);
       const isInternalError = typeof e == 'string' || e instanceof ContextError;
@@ -83,8 +85,6 @@ export default class Dispatcher extends Event<'message'> {
       message.channel.send(embed);
       await message.react('❌');
     }
-
-    await command?.call(message, ...args);
 
     info(`Finished: ${(Date.now() - start)}ms`, command?.name);
     message.channel.stopTyping();
