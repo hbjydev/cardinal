@@ -1,7 +1,6 @@
 name: Indev Builds
 
-on:
-  push: {}
+on: [ push ]
 
 jobs:
   build_push_i:
