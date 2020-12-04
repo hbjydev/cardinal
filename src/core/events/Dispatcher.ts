@@ -11,7 +11,7 @@ export default class Dispatcher extends Event<'message'> {
 
   public description = 'Handles command dispatching.';
 
-  public async run(message: Message) {
+  public async run(message: Message): Promise<void> {
     if (message.author.bot) return;
     if (!message.content.startsWith(this.cardinal.prefix)) return;
 
@@ -33,7 +33,7 @@ export default class Dispatcher extends Event<'message'> {
         const macro = await ms.getMacro(commandName);
 
         if (macro !== undefined) {
-          const responses = await macro.responses!!;
+          const responses = await macro.responses!;
           if (responses.length == 0) {
             await message.react('❌');
             message.channel.stopTyping();
@@ -45,7 +45,7 @@ export default class Dispatcher extends Event<'message'> {
             message.channel.send(response.content.replace('raw:', ''));
           } else {
             message.channel.send(new MessageEmbed({
-              description: response.content?.startsWith('img:') ? undefined : response.content!!,
+              description: response.content?.startsWith('img:') ? undefined : response.content!,
               image: response.content?.startsWith('img:') ? { url: response.content?.replace('img:', '') } : undefined,
               footer: { text: `Response ID ${response.id}` }
             }));

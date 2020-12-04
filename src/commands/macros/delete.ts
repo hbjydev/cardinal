@@ -20,7 +20,7 @@ export default class DeleteMacroCommand extends Command {
 
     const id = args[0];
 
-    const { success, reason } = await ms.tryDeleteGuildMacro(id, message.member!!);
+    const { success, reason } = await ms.tryDeleteGuildMacro(id, message.member!);
 
     if (success !== false) {
       message.channel.send(new MessageEmbed({

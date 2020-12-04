@@ -1,4 +1,4 @@
-interface GOCResponse<T> {
+export interface GOCResponse<T> {
   existed: boolean;
   result: T;
 }

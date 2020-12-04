@@ -2,6 +2,7 @@ import {Guild, GuildMember} from "discord.js";
 import Macro from "../models/Macro.entity";
 import GuildService from './GuildService';
 import MacroResponse from "../models/MacroResponse.entity";
+import { GOCResponse } from '../GOCResponse';
 
 export default class MacroService {
   private guildService: GuildService;
@@ -51,10 +52,14 @@ export default class MacroService {
 
   public async getGuildMacros(name?: string): Promise<Macro[]> {
     const { result: guild } = await this.guildService.getOrCreateGuild();
-    const macros = await guild.macros!!;
+    const macros = await guild.macros;
+
+    if (macros == undefined) return [];
+
     if (name !== undefined) {
       return macros.filter(m => m.name == name);
     }
+
     return macros;
   }
 
@@ -65,11 +70,11 @@ export default class MacroService {
     const response = await MacroResponse.findOne(typeof id == 'string' ? parseInt(id) : id);
     if (!response) return { success: false, reason: 'NOEXISTS' };
 
-    const macro = await response.macro!!;
-    if ((await macro.guild!!).guildId!! !== guild.guildId) return { success: false, reason: 'NOEXISTS' }
+    const macro = await response.macro!;
+    if ((await macro.guild!).guildId! !== guild.guildId) return { success: false, reason: 'NOEXISTS' }
 
     await response.remove();
-    if ((await macro.responses!!).length == 0) await macro.remove();
+    if ((await macro.responses!).length == 0) await macro.remove();
 
     return { success: true };
   }

@@ -1,6 +1,6 @@
 import { Client, User } from 'discord.js';
 
-export const truncateString = (str: string, len: number, append = '...') => {
+export const truncateString = (str: string, len: number, append = '...'): string => {
   let newLength;
   const toAppend = ` ${append}`;
 
@@ -28,7 +28,7 @@ interface FuzzyDate {
   month: string;
   day: string;
 }
-export const parseFuzzyDate = ({ year, month, day }: FuzzyDate) => `${year}/${month}/${day}`;
+export const parseFuzzyDate = ({ year, month, day }: FuzzyDate): string => `${year}/${month}/${day}`;
 export const getUserFromMention = (client: Client, mention: string): User | undefined => {
   if (!mention) return undefined;
 

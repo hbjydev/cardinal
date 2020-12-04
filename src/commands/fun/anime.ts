@@ -12,7 +12,7 @@ export default class AnimeCommand extends Command {
 
   public usage = '<name>';
 
-  public run = async (message: Message, ...args: string[]) => {
+  public run = async (message: Message, ...args: string[]): Promise<void> => {
     const name = args.join(' ');
 
     const query = `
@@ -63,8 +63,7 @@ export default class AnimeCommand extends Command {
       throw 'No such anime found!';
     }
 
-    // @ts-ignore
-    const channel: TextChannel = await message.channel.fetch();
+    const channel = await message.channel.fetch() as TextChannel;
     if (!channel.nsfw && media.isAdult) {
       throw 'This anime is flagged as NSFW. To view it, please re-run this command in an NSFW channel.';
     }

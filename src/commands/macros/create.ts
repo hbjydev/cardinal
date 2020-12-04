@@ -44,7 +44,7 @@ export default class CreateMacroCommand extends Command {
         throw new Error('A macro with that name does not exist.');
       }
 
-      const responses = await macro.responses!!;
+      const responses = await macro.responses!;
 
       if (responses.length !== 0) {
         const data = await fetch('https://hasteb.in/documents', {

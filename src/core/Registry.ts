@@ -7,7 +7,7 @@ import Event from './Event';
 type EventConstructor = new(cardinal: Cardinal) => Event<any>;
 
 export default class CardinalRegistry {
-  public commands = new Collection<String, Command>();
+  public commands = new Collection<string, Command>();
 
   public constructor(private cardinal: Cardinal) {}
 

@@ -1,5 +1,6 @@
 import { Guild } from "discord.js";
 import CGuild from "../models/Guild.entity";
+import { GOCResponse } from '../GOCResponse';
 
 export default class GuildService {
   public constructor (private guild: Guild) {}

@@ -19,7 +19,7 @@ export default class Cardinal {
    * @param token If not specified, this parameter will default to the
    *              DISCORD_TOKEN environment variable.
    */
-  public async login(token = process.env.DISCORD_TOKEN) {
+  public async login(token = process.env.DISCORD_TOKEN): Promise<void> {
     try {
       await this.client.login(token);
       info('Successfully authenticated with Discord!');
@@ -36,7 +36,7 @@ export default class Cardinal {
    *
    * @param dbUri The database URI to connect using.
    */
-  public async connectDatabase(config: ConnectionOptions) {
+  public async connectDatabase(config: ConnectionOptions): Promise<void> {
     try {
       await createConnection(config);
     } catch (e) {
