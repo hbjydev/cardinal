@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from 'discord.js';
-import { captureException, setUser, configureScope } from '@sentry/node';
+import { captureException, configureScope } from '@sentry/node';
 import errorEmbed from '../ErrorEmbed';
 import Event from '../Event';
 import { info } from '../Logger';
@@ -41,11 +41,15 @@ export default class Dispatcher extends Event<'message'> {
           }
 
           const response = responses[Math.floor(Math.random() * responses.length)];
-          message.channel.send(new MessageEmbed({
-            description: response.content?.startsWith('img:') ? undefined : response.content!!,
-            image: response.content?.startsWith('img:') ? { url: response.content?.replace('img:', '') } : undefined,
-            footer: { text: `Response ID ${response.id}` }
-          }));
+          if (response.content?.startsWith('raw:')) {
+            message.channel.send(response.content.replace('raw:', ''));
+          } else {
+            message.channel.send(new MessageEmbed({
+              description: response.content?.startsWith('img:') ? undefined : response.content!!,
+              image: response.content?.startsWith('img:') ? { url: response.content?.replace('img:', '') } : undefined,
+              footer: { text: `Response ID ${response.id}` }
+            }));
+          }
           message.channel.stopTyping();
           return;
         }
