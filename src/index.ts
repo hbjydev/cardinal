@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import * as Sentry from '@sentry/node';
-import { info } from './core/Logger';
+import { info, error } from './core/Logger';
 
 import dbConfig from './ormconfig';
 
@@ -19,6 +19,13 @@ if (process.env.SENTRY_DSN !== null) {
   info('Initializing Sentry integration...', 'sentry');
   Sentry.init({ dsn: process.env.SENTRY_DSN });
 }
+
+process.on('uncaughtException', err => {
+  error('An uncaught exception occurred.', 'uncaught');
+  error(err.message, 'uncaught');
+
+  Sentry.captureException(err);
+});
 
 // Create an instance of the bot
 const bot = new Cardinal(
