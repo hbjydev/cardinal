@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed, PermissionString } from 'discord.js';
 import { Script } from 'vm';
 import Command from '../../core/Command';
 import fetch from 'node-fetch';
@@ -9,6 +9,8 @@ export default class EvalCommand extends Command {
   public description = 'Evaluates raw JavaScript code.';
 
   public usage = '[code]';
+
+  public permissions = [ 'BOT_OWNER' ] as (PermissionString & 'BOT_OWNER')[];
 
   public run = async (message: Message, ...args: string[]) => {
     const { channel } = message;
