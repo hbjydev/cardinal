@@ -30,7 +30,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/cardinal:$GITHUB_SHA
-            ghcr.io/${{ github.repository_owner }}/cardinal:$GITHUB_SHA
+            ${{ secrets.DOCKER_USERNAME }}/cardinal:${GITHUB_SHA}
+            ghcr.io/${{ github.repository_owner }}/cardinal:${GITHUB_SHA}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
