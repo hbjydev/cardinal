@@ -9,3 +9,18 @@ services:
     volumes:
       - './:/app'
 
+  database:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: '1337H4xx0rz'
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data'
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  dbdata: {}

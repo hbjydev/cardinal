@@ -1,8 +1,10 @@
-import { Message } from 'discord.js';
-import { captureException } from '@sentry/node';
+import { Message, MessageEmbed } from 'discord.js';
+import { captureException, configureScope } from '@sentry/node';
 import errorEmbed from '../ErrorEmbed';
 import Event from '../Event';
 import { info } from '../Logger';
+import MacroService from '../../services/MacroService';
+import ContextError from '../errors/ContextError';
 
 export default class Dispatcher extends Event<'message'> {
   public event = <const>'message';
@@ -18,10 +20,43 @@ export default class Dispatcher extends Event<'message'> {
 
     const [commandName, ...args] = message.content.substring(this.cardinal.prefix.length).split(' ');
 
+    configureScope(scope => {
+      scope.setUser({ username: message.author.id });
+      scope.setTransactionName(`command:${commandName}`);
+    });
+
     const command = this.cardinal.registry.commands.get(commandName);
 
     if (!command) {
+      if (message.guild) {
+        const ms = new MacroService(message.guild);
+        const macro = await ms.getMacro(commandName);
+
+        if (macro !== undefined) {
+          const responses = await macro.responses!!;
+          if (responses.length == 0) {
+            await message.react('❌');
+            message.channel.stopTyping();
+            return;
+          }
+
+          const response = responses[Math.floor(Math.random() * responses.length)];
+          if (response.content?.startsWith('raw:')) {
+            message.channel.send(response.content.replace('raw:', ''));
+          } else {
+            message.channel.send(new MessageEmbed({
+              description: response.content?.startsWith('img:') ? undefined : response.content!!,
+              image: response.content?.startsWith('img:') ? { url: response.content?.replace('img:', '') } : undefined,
+              footer: { text: `Response ID ${response.id}` }
+            }));
+          }
+          message.channel.stopTyping();
+          return;
+        }
+      }
+
       await message.react('❌');
+      message.channel.stopTyping();
       return;
     }
 
@@ -39,12 +74,14 @@ export default class Dispatcher extends Event<'message'> {
       });
     } catch (e) {
       const embed = errorEmbed(e);
-      if (typeof e !== 'string' && process.env.SENTRY_DSN !== null) {
-        captureException(e as Error);
+      const isInternalError = typeof e == 'string' || e instanceof ContextError;
+
+      if (!isInternalError && process.env.SENTRY_DSN !== null) {
+        const tags = { 'channelId': message.channel.id, 'channelType': message.channel.type };
+        captureException(e as Error, { tags });
       }
       message.channel.send(embed);
       await message.react('❌');
-      return;
     }
 
     await command?.call(message, ...args);
