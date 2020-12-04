@@ -34,7 +34,6 @@
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.2.0",
-    "husky": "^4.3.0",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.0",
     "typescript": "^3.9.6"
@@ -48,10 +47,5 @@
     "pg": "^8.5.1",
     "turndown": "^6.0.0",
     "typeorm": "^0.2.29"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format && npm run lint"
-    }
   }
 }
