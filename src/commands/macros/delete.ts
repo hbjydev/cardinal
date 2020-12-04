@@ -5,9 +5,9 @@ import MacroService from "../../services/MacroService";
 
 export default class DeleteMacroCommand extends Command {
   public name = 'delmacro';
-  public description = 'Deletes a guild macro.';
+  public description = 'Deletes a guild macro response by its ID, or the entire macro if no responses exist.';
 
-  public usage = '<name>';
+  public usage = '<response id>';
 
   public permissions = [ <const>'ADMINISTRATOR' ] as (PermissionString & 'BOT_OWNER')[];
 
@@ -18,16 +18,15 @@ export default class DeleteMacroCommand extends Command {
 
     const ms = new MacroService(message.guild);
 
-    const [ preName ] = args;
-    const name = preName.toLowerCase();
+    const id = args[0];
 
-    const { success, reason } = await ms.tryDeleteGuildMacro(name, message.member!!);
+    const { success, reason } = await ms.tryDeleteGuildMacro(id, message.member!!);
 
     if (success !== false) {
       message.channel.send(new MessageEmbed({
-        title: 'Deleted a macro.',
+        title: 'Deleted a macro response.',
         fields: [
-          { name: 'Name', value: '`' + name + '`', inline: true },
+          { name: 'Response ID', value: '`' + id + '`', inline: true },
         ],
         color: '#ff6666'
       }));

@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { captureException } from '@sentry/node';
 import errorEmbed from '../ErrorEmbed';
 import Event from '../Event';
@@ -24,11 +24,21 @@ export default class Dispatcher extends Event<'message'> {
     if (!command) {
       if (message.guild) { 
         const ms = new MacroService(message.guild);
-        const macros = await ms.getGuildMacros();
-        const macro = macros.find(m => m.name == commandName);
+        const macro = await ms.getMacro(commandName);
 
         if (macro !== undefined) {
-          message.channel.send(macro.content!!);
+          const responses = await macro.responses!!;
+          if (responses.length == 0) {
+            await message.react('❌');
+            return;
+          }
+
+          const response = responses[Math.floor(Math.random() * responses.length)];
+          message.channel.send(new MessageEmbed({
+            description: response.content?.startsWith('img:') ? undefined : response.content!!,
+            image: response.content?.startsWith('img:') ? { url: response.content?.replace('img:', '') } : undefined,
+            footer: { text: `Response ID ${response.id}` }
+          }));
           message.channel.stopTyping();
           return;
         }

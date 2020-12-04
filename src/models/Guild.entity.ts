@@ -9,7 +9,7 @@ export default class Guild extends BaseEntity {
   @Column({ unique: true, nullable: false, name: 'guild_id' })
   public guildId?: string;
 
-  @OneToMany(() => Macro, m => m.guild, { eager: false })
+  @OneToMany(() => Macro, m => m.guild)
   public macros?: Promise<Macro[]>;
 }
 
