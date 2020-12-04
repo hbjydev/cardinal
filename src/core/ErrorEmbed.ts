@@ -1,5 +1,5 @@
-import { MessageEmbed } from 'discord.js';
-import { truncateString } from './Util';
+import { MessageEmbed } from "discord.js";
+import { truncateString } from "./Util";
 
 /**
  * Creates an error notification embed.
@@ -11,16 +11,19 @@ import { truncateString } from './Util';
 export default function errorEmbed(error: string | Error): MessageEmbed {
   const embed = new MessageEmbed();
 
-  embed.setTitle('Something went wrong!');
-  embed.setDescription(typeof error === 'string' ? error : error.message);
-  embed.setColor('#ff0000');
+  embed.setTitle("Something went wrong!");
+  embed.setDescription(typeof error === "string" ? error : error.message);
+  embed.setColor("#ff0000");
 
-  if (process.env.NODE_ENV !== 'production' && typeof error !== 'string') {
+  if (process.env.NODE_ENV !== "production" && typeof error !== "string") {
     embed.addField(
-      'Stack Trace',
+      "Stack Trace",
       error.stack
-        ? `To disable this field, ensure your bot is running with its \`NODE_ENV\` set to \`production\`.\n\`\`\`\n${truncateString(error.stack, 900)}\n\`\`\``
-        : 'None provided.',
+        ? `To disable this field, ensure your bot is running with its \`NODE_ENV\` set to \`production\`.\n\`\`\`\n${truncateString(
+            error.stack,
+            900,
+          )}\n\`\`\``
+        : "None provided.",
     );
   }
 

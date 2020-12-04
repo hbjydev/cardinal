@@ -1,19 +1,19 @@
-import { Message, MessageEmbed, TextChannel } from 'discord.js';
-import fetch from 'node-fetch';
-import TurndownService from 'turndown';
-import Command from '../../core/Command';
-import { formats, statuses, sources } from '../../anilist';
-import { truncateString, parseFuzzyDate } from '../../core/Util';
+import { Message, MessageEmbed, TextChannel } from "discord.js";
+import fetch from "node-fetch";
+import TurndownService from "turndown";
+import Command from "../../core/Command";
+import { formats, statuses, sources } from "../../anilist";
+import { truncateString, parseFuzzyDate } from "../../core/Util";
 
 export default class AnimeCommand extends Command {
-  public name = 'anime';
+  public name = "anime";
 
-  public description = 'Retrieves information from AniList about an anime.';
+  public description = "Retrieves information from AniList about an anime.";
 
-  public usage = '<name>';
+  public usage = "<name>";
 
   public run = async (message: Message, ...args: string[]): Promise<void> => {
-    const name = args.join(' ');
+    const name = args.join(" ");
 
     const query = `
       query ($name: String) {
@@ -46,26 +46,28 @@ export default class AnimeCommand extends Command {
       name,
     };
 
-    const url = 'https://graphql.anilist.co';
+    const url = "https://graphql.anilist.co";
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({ query, variables }),
     };
 
     const res = await fetch(url, options);
-    const { data: { Media: media } } = await res.json();
+    const {
+      data: { Media: media },
+    } = await res.json();
 
     if (media == null) {
-      throw 'No such anime found!';
+      throw "No such anime found!";
     }
 
-    const channel = await message.channel.fetch() as TextChannel;
+    const channel = (await message.channel.fetch()) as TextChannel;
     if (!channel.nsfw && media.isAdult) {
-      throw 'This anime is flagged as NSFW. To view it, please re-run this command in an NSFW channel.';
+      throw "This anime is flagged as NSFW. To view it, please re-run this command in an NSFW channel.";
     }
 
     const turndown = new TurndownService();
@@ -78,63 +80,63 @@ export default class AnimeCommand extends Command {
       title: media.title.english
         ? media.title.english
         : media.title.romaji
-          ? media.title.romaji
-          : media.title.native,
+        ? media.title.romaji
+        : media.title.native,
       url: media.siteUrl,
       description,
       fields: [
         {
-          name: 'Format',
+          name: "Format",
           value: formats[media.format],
           inline: true,
         },
         {
-          name: 'Status',
+          name: "Status",
           value: statuses[media.status],
           inline: true,
         },
         {
-          name: 'Episodes',
+          name: "Episodes",
           value: media.episodes,
           inline: true,
         },
         {
-          name: 'Source',
+          name: "Source",
           value: sources[media.source],
           inline: true,
         },
         {
-          name: 'Score',
+          name: "Score",
           value: media.meanScore,
           inline: true,
         },
         {
-          name: 'Main Studio',
+          name: "Main Studio",
           value: media.studios.nodes[0].name,
           inline: true,
         },
         {
-          name: 'Start Date (Y/M/D)',
+          name: "Start Date (Y/M/D)",
           value: parseFuzzyDate(media.startDate),
           inline: true,
         },
         {
-          name: 'End Date (Y/M/D)',
-          value: media.endDate ? parseFuzzyDate(media.endDate) : 'N/a',
+          name: "End Date (Y/M/D)",
+          value: media.endDate ? parseFuzzyDate(media.endDate) : "N/a",
           inline: true,
         },
         {
-          name: 'Tags',
-          value: media.tags.map((v: { name: string }) => v.name).join(', '),
+          name: "Tags",
+          value: media.tags.map((v: { name: string }) => v.name).join(", "),
         },
         {
-          name: 'Genres',
-          value: media.genres.join(', '),
+          name: "Genres",
+          value: media.genres.join(", "),
         },
       ],
       footer: {
-        text: 'Information provided by Anilist (anilist.co).',
-        icon_url: 'https://avatars2.githubusercontent.com/u/18018524?s=128&v=4',
+        text: "Information provided by Anilist (anilist.co).",
+        icon_url: "https://avatars2.githubusercontent.com/u/18018524?s=128&v=4",
       },
       color: media.coverImage.color,
     });

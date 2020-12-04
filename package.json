@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node .",
     "build": "tsc",
-    "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./src/ormconfig.ts",
     "lint": "eslint . --ext .ts,.js,.json",
-    "lint:fix": "eslint . --ext .ts,.js,.json --fix"
+    "lint:fix": "eslint . --ext .ts,.js,.json --fix",
+    "format": "prettier --config .prettierrc '**/*.{json,js,ts,md}' --write",
+    "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./src/ormconfig.ts"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "eslint": "^7.14.0",
+    "prettier": "^2.2.1",
     "ts-node": "^9.1.0",
     "typescript": "^3.9.6"
   },

@@ -1,13 +1,13 @@
-import {Guild, GuildMember} from "discord.js";
+import { Guild, GuildMember } from "discord.js";
 import Macro from "../models/Macro.entity";
-import GuildService from './GuildService';
+import GuildService from "./GuildService";
 import MacroResponse from "../models/MacroResponse.entity";
-import { GOCResponse } from '../GOCResponse';
+import { GOCResponse } from "../GOCResponse";
 
 export default class MacroService {
   private guildService: GuildService;
 
-  public constructor (guild: Guild) {
+  public constructor(guild: Guild) {
     this.guildService = new GuildService(guild);
   }
 
@@ -24,9 +24,14 @@ export default class MacroService {
     return macro;
   }
 
-  public async createMacro(name: string, content: string): Promise<(GOCResponse<Macro>)> {
+  public async createMacro(
+    name: string,
+    content: string,
+  ): Promise<GOCResponse<Macro>> {
     const { result: guild } = await this.guildService.getOrCreateGuild();
-    const existingMacro = await Macro.findOne(undefined, { where: { name, guild: guild } });
+    const existingMacro = await Macro.findOne(undefined, {
+      where: { name, guild: guild },
+    });
 
     if (existingMacro === undefined) {
       const macro = new Macro();
@@ -57,21 +62,31 @@ export default class MacroService {
     if (macros == undefined) return [];
 
     if (name !== undefined) {
-      return macros.filter(m => m.name == name);
+      return macros.filter((m) => m.name == name);
     }
 
     return macros;
   }
 
-  public async tryDeleteGuildMacro(id: string | number, member: GuildMember): Promise<{ success: boolean, reason?: 'PERMISSIONS' | 'DBERROR' | 'NOEXISTS'}> {
-    if (!member.hasPermission('ADMINISTRATOR')) return { success: false, reason: 'PERMISSIONS' };
+  public async tryDeleteGuildMacro(
+    id: string | number,
+    member: GuildMember,
+  ): Promise<{
+    success: boolean;
+    reason?: "PERMISSIONS" | "DBERROR" | "NOEXISTS";
+  }> {
+    if (!member.hasPermission("ADMINISTRATOR"))
+      return { success: false, reason: "PERMISSIONS" };
     const { result: guild } = await this.guildService.getOrCreateGuild();
 
-    const response = await MacroResponse.findOne(typeof id == 'string' ? parseInt(id) : id);
-    if (!response) return { success: false, reason: 'NOEXISTS' };
+    const response = await MacroResponse.findOne(
+      typeof id == "string" ? parseInt(id) : id,
+    );
+    if (!response) return { success: false, reason: "NOEXISTS" };
 
     const macro = await response.macro!;
-    if ((await macro.guild!).guildId! !== guild.guildId) return { success: false, reason: 'NOEXISTS' }
+    if ((await macro.guild!).guildId! !== guild.guildId)
+      return { success: false, reason: "NOEXISTS" };
 
     await response.remove();
     if ((await macro.responses!).length == 0) await macro.remove();

@@ -1,12 +1,14 @@
 import { Guild } from "discord.js";
 import CGuild from "../models/Guild.entity";
-import { GOCResponse } from '../GOCResponse';
+import { GOCResponse } from "../GOCResponse";
 
 export default class GuildService {
-  public constructor (private guild: Guild) {}
+  public constructor(private guild: Guild) {}
 
-  public async getOrCreateGuild(): Promise<(GOCResponse<CGuild>)> {
-    const existingGuild = await CGuild.findOne(undefined, { where: { guildId: this.guild.id } });
+  public async getOrCreateGuild(): Promise<GOCResponse<CGuild>> {
+    const existingGuild = await CGuild.findOne(undefined, {
+      where: { guildId: this.guild.id },
+    });
 
     if (existingGuild === undefined) {
       const guild = new CGuild();
