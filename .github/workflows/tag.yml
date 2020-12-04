@@ -1,6 +1,7 @@
 name: Release Builds
 
-on: [ 'release' ]
+on:
+  release: {}
 
 jobs:
   build_push_t:
