@@ -36,6 +36,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/cardinal:${{ steps.get_version.outputs.SOURCE_TAG }}
+            ${{ secrets.DOCKER_USERNAME }}/cardinal:latest
             ghcr.io/${{ github.repository_owner }}/cardinal:${{ steps.get_version.outputs.SOURCE_TAG }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
