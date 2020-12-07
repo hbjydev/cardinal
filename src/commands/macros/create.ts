@@ -8,6 +8,11 @@ export default class CreateMacroCommand extends Command {
   public name = 'macro';
   public description = 'Creates or views a guild macro.';
 
+  public extraDetail =
+    'To create a macro that creates an embed, simply set some text content.\n\n' +
+    'To create a macro that displays an image in an embed on its own, make the content `img:<url>`.\n\n' +
+    'To create a macro that does *not* create an embed, but rather just plain text, you can make the content `raw:<text>`.';
+
   public usage = '<name> [content]';
 
   public async run(message: Message, ...args: string[]): Promise<void> {
