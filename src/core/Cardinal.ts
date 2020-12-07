@@ -1,16 +1,18 @@
-import { Client } from "discord.js";
-import { CardinalRegistry } from ".";
-import { Dispatcher } from "./events/index";
-import { info, error } from "./Logger";
-import { createConnection, ConnectionOptions } from "typeorm";
+import { Client } from 'discord.js';
+import { CardinalRegistry } from '.';
+import { Dispatcher } from './events/index';
+import { info, error } from './Logger';
+import { createConnection, ConnectionOptions } from 'typeorm';
 
 export default class Cardinal {
   public client = new Client();
 
   public registry = new CardinalRegistry(this);
 
+  public commandReaction = process.env.COMMAND_REACTION ?? '👀';
+
   public constructor(public prefix: string, public owners: string[]) {
-    info("Initializing Cardinal...", "init");
+    info('Initializing Cardinal...', 'init');
   }
 
   /**
@@ -22,10 +24,10 @@ export default class Cardinal {
   public async login(token = process.env.DISCORD_TOKEN): Promise<void> {
     try {
       await this.client.login(token);
-      info("Successfully authenticated with Discord!");
+      info('Successfully authenticated with Discord!');
       this.registry.registerEvents(Dispatcher);
     } catch (e) {
-      error("Something went wrong calling Cardinal#login().");
+      error('Something went wrong calling Cardinal#login().');
       error(e.message);
       process.exit(1);
     }
@@ -40,8 +42,8 @@ export default class Cardinal {
     try {
       await createConnection(config);
     } catch (e) {
-      error("Failed to connect to database.", "db");
-      error(e.message, "db");
+      error('Failed to connect to database.', 'db');
+      error(e.message, 'db');
       process.exit(1);
     }
   }

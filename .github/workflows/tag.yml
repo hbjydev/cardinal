@@ -2,7 +2,7 @@ name: Release Builds
 
 on:
   push:
-    tags: ["*"]
+    tags: ['*']
 
 jobs:
   build_push_t:
@@ -51,7 +51,7 @@ jobs:
       - name: Install kubectl
         run: sudo apt install kubectl -y
 
-      - name: Updated Kubernetes deployment image
+      - name: Create kubeconfig file
         run: 'mkdir -p ~/.kube && echo "$KUBECONFIG" > ~/.kube/config'
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}

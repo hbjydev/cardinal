@@ -1,8 +1,8 @@
-import { Collection, ClientEvents } from "discord.js";
-import Command from "./Command";
-import Cardinal from "./Cardinal";
-import { info, error } from "./Logger";
-import Event from "./Event";
+import { Collection, ClientEvents } from 'discord.js';
+import Command from './Command';
+import Cardinal from './Cardinal';
+import { info, error } from './Logger';
+import Event from './Event';
 
 type EventConstructor = new (cardinal: Cardinal) => Event<any>;
 
