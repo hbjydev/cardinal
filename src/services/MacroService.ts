@@ -1,8 +1,8 @@
-import { Guild, GuildMember } from "discord.js";
-import Macro from "../models/Macro.entity";
-import GuildService from "./GuildService";
-import MacroResponse from "../models/MacroResponse.entity";
-import { GOCResponse } from "../GOCResponse";
+import { Guild, GuildMember } from 'discord.js';
+import Macro from '../models/Macro.entity';
+import GuildService from './GuildService';
+import MacroResponse from '../models/MacroResponse.entity';
+import { GOCResponse } from '../GOCResponse';
 
 export default class MacroService {
   private guildService: GuildService;
@@ -73,20 +73,20 @@ export default class MacroService {
     member: GuildMember,
   ): Promise<{
     success: boolean;
-    reason?: "PERMISSIONS" | "DBERROR" | "NOEXISTS";
+    reason?: 'PERMISSIONS' | 'DBERROR' | 'NOEXISTS';
   }> {
-    if (!member.hasPermission("ADMINISTRATOR"))
-      return { success: false, reason: "PERMISSIONS" };
+    if (!member.hasPermission('ADMINISTRATOR'))
+      return { success: false, reason: 'PERMISSIONS' };
     const { result: guild } = await this.guildService.getOrCreateGuild();
 
     const response = await MacroResponse.findOne(
-      typeof id == "string" ? parseInt(id) : id,
+      typeof id == 'string' ? parseInt(id) : id,
     );
-    if (!response) return { success: false, reason: "NOEXISTS" };
+    if (!response) return { success: false, reason: 'NOEXISTS' };
 
     const macro = await response.macro!;
     if ((await macro.guild!).guildId! !== guild.guildId)
-      return { success: false, reason: "NOEXISTS" };
+      return { success: false, reason: 'NOEXISTS' };
 
     await response.remove();
     if ((await macro.responses!).length == 0) await macro.remove();

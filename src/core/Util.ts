@@ -1,14 +1,14 @@
-import { Client, User } from "discord.js";
+import { Client, User } from 'discord.js';
 
 export const truncateString = (
   str: string,
   len: number,
-  append = "...",
+  append = '...',
 ): string => {
   let newLength;
   const toAppend = ` ${append}`;
 
-  if ((str.indexOf(" ") + append).length > len) {
+  if ((str.indexOf(' ') + append).length > len) {
     return str;
   }
 
@@ -19,7 +19,7 @@ export const truncateString = (
   }
 
   let tempString = str.substring(0, newLength); // cut the string at the new length
-  tempString = tempString.replace(/\s+\S*$/, ""); // find the last space that appears before the substringed text
+  tempString = tempString.replace(/\s+\S*$/, ''); // find the last space that appears before the substringed text
 
   if (append.length > 0) {
     tempString += append;
@@ -40,11 +40,11 @@ export const getUserFromMention = (
 ): User | undefined => {
   if (!mention) return undefined;
 
-  let userId = "";
-  if (mention.startsWith("<@") && mention.endsWith(">")) {
+  let userId = '';
+  if (mention.startsWith('<@') && mention.endsWith('>')) {
     userId = mention.slice(2, -1);
 
-    if (mention.startsWith("!")) {
+    if (mention.startsWith('!')) {
       userId = userId.slice(1);
     }
 

@@ -1,12 +1,12 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateGuildTable1607035651166 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const table = new Table({
-      name: "guilds",
+      name: 'guilds',
       columns: [
-        { name: "id", isPrimary: true, isGenerated: true, type: "integer" },
-        { name: "guild_id", type: "character varying", isUnique: true },
+        { name: 'id', isPrimary: true, isGenerated: true, type: 'integer' },
+        { name: 'guild_id', type: 'character varying', isUnique: true },
       ],
     });
 
@@ -14,6 +14,6 @@ export class CreateGuildTable1607035651166 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("guilds", true, true, true);
+    await queryRunner.dropTable('guilds', true, true, true);
   }
 }
