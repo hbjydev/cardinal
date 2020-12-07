@@ -14,14 +14,14 @@ repos:
         files: \.[jt]s$
         types: [file]
         additional_dependencies:
-          - "eslint"
-          - "@typescript-eslint/eslint-plugin"
-          - "@typescript-eslint/parser"
-          - "eslint-config-prettier"
-          - "eslint-plugin-prettier"
-          - "typescript"
-          - "prettier"
+          - 'eslint'
+          - '@typescript-eslint/eslint-plugin'
+          - '@typescript-eslint/parser'
+          - 'eslint-config-prettier'
+          - 'eslint-plugin-prettier'
+          - 'typescript'
+          - 'prettier'
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v2.2.1"
+    rev: 'v2.2.1'
     hooks:
       - id: prettier
