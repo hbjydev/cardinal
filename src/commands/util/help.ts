@@ -37,13 +37,10 @@ export default class HelpCommand extends Command {
         command.description ?? 'This command has no description',
       );
 
-      if (command.usage) {
-        embed.addField('Usage', `\`${command.usage}\``);
-      }
+      if (command.usage) embed.addField('Usage', `\`${command.usage}\``);
 
-      if (command.extraDetail) {
+      if (command.extraDetail)
         embed.addField('Extra Detail', command.extraDetail);
-      }
 
       if (command.permissions) {
         embed.addField(
@@ -51,7 +48,6 @@ export default class HelpCommand extends Command {
           `\`${command.permissions.join('`, `')}\``,
         );
       }
-      if (command.usage) embed.addField('Usage', command.usage);
 
       await message.channel.send(embed);
     }
