@@ -15,7 +15,7 @@ export default class Dispatcher extends Event<"message"> {
     if (message.author.bot) return;
     if (!message.content.startsWith(this.cardinal.prefix)) return;
 
-    message.channel.startTyping();
+    //message.channel.startTyping();
     const start = Date.now();
 
     const [commandName, ...args] = message.content
@@ -38,7 +38,7 @@ export default class Dispatcher extends Event<"message"> {
           const responses = await macro.responses!;
           if (responses.length == 0) {
             await message.react("❌");
-            message.channel.stopTyping();
+            //   message.channel.stopTyping();
             return;
           }
 
@@ -59,13 +59,13 @@ export default class Dispatcher extends Event<"message"> {
               }),
             );
           }
-          message.channel.stopTyping();
+          //   message.channel.stopTyping();
           return;
         }
       }
 
       await message.react("❌");
-      message.channel.stopTyping();
+      // message.channel.stopTyping();
       return;
     }
 
@@ -99,6 +99,6 @@ export default class Dispatcher extends Event<"message"> {
     }
 
     info(`Finished: ${Date.now() - start}ms`, command?.name);
-    message.channel.stopTyping();
+    //message.channel.stopTyping();
   }
 }
