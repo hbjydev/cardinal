@@ -47,6 +47,6 @@ export default class Command {
       await message.react('❌');
     }
 
-    await message.react('✅');
+    await message.react(this.cardinal.commandReaction);
   }
 }
