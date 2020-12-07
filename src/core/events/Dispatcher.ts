@@ -38,7 +38,7 @@ export default class Dispatcher extends Event<"message"> {
           const responses = await macro.responses!;
           if (responses.length == 0) {
             await message.react("❌");
-         //   message.channel.stopTyping();
+            //   message.channel.stopTyping();
             return;
           }
 
@@ -59,13 +59,13 @@ export default class Dispatcher extends Event<"message"> {
               }),
             );
           }
-       //   message.channel.stopTyping();
+          //   message.channel.stopTyping();
           return;
         }
       }
 
       await message.react("❌");
-     // message.channel.stopTyping();
+      // message.channel.stopTyping();
       return;
     }
 
