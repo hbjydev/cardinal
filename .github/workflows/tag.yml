@@ -45,4 +45,4 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
         with:
-          args: set image deployments/cardinal-bot cardinal=${{ steps.get_version.outputs.SOURCE_TAG }}
+          args: set image deployments/cardinal-bot cardinal=${{ secrets.DOCKER_USERNAME }}/cardinal:${{ steps.get_version.outputs.SOURCE_TAG }}
