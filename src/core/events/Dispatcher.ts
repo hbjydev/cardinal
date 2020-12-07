@@ -1,15 +1,15 @@
-import { Message, MessageEmbed } from "discord.js";
-import { captureException, configureScope } from "@sentry/node";
-import errorEmbed from "../ErrorEmbed";
-import Event from "../Event";
-import { info } from "../Logger";
-import MacroService from "../../services/MacroService";
-import ContextError from "../errors/ContextError";
+import { Message, MessageEmbed } from 'discord.js';
+import { captureException, configureScope } from '@sentry/node';
+import errorEmbed from '../ErrorEmbed';
+import Event from '../Event';
+import { info } from '../Logger';
+import MacroService from '../../services/MacroService';
+import ContextError from '../errors/ContextError';
 
-export default class Dispatcher extends Event<"message"> {
-  public event = <const>"message";
+export default class Dispatcher extends Event<'message'> {
+  public event = <const>'message';
 
-  public description = "Handles command dispatching.";
+  public description = 'Handles command dispatching.';
 
   public async run(message: Message): Promise<void> {
     if (message.author.bot) return;
@@ -20,7 +20,7 @@ export default class Dispatcher extends Event<"message"> {
 
     const [commandName, ...args] = message.content
       .substring(this.cardinal.prefix.length)
-      .split(" ");
+      .split(' ');
 
     configureScope((scope) => {
       scope.setUser({ username: message.author.id });
@@ -37,23 +37,23 @@ export default class Dispatcher extends Event<"message"> {
         if (macro !== undefined) {
           const responses = await macro.responses!;
           if (responses.length == 0) {
-            await message.react("❌");
+            await message.react('❌');
             //   message.channel.stopTyping();
             return;
           }
 
           const response =
             responses[Math.floor(Math.random() * responses.length)];
-          if (response.content?.startsWith("raw:")) {
-            message.channel.send(response.content.replace("raw:", ""));
+          if (response.content?.startsWith('raw:')) {
+            message.channel.send(response.content.replace('raw:', ''));
           } else {
             message.channel.send(
               new MessageEmbed({
-                description: response.content?.startsWith("img:")
+                description: response.content?.startsWith('img:')
                   ? undefined
                   : response.content!,
-                image: response.content?.startsWith("img:")
-                  ? { url: response.content?.replace("img:", "") }
+                image: response.content?.startsWith('img:')
+                  ? { url: response.content?.replace('img:', '') }
                   : undefined,
                 footer: { text: `Response ID ${response.id}` },
               }),
@@ -64,7 +64,7 @@ export default class Dispatcher extends Event<"message"> {
         }
       }
 
-      await message.react("❌");
+      await message.react('❌');
       // message.channel.stopTyping();
       return;
     }
@@ -73,19 +73,19 @@ export default class Dispatcher extends Event<"message"> {
       const perms = command.permissions ?? [];
       perms.forEach((perm) => {
         if (
-          perm === "BOT_OWNER" &&
+          perm === 'BOT_OWNER' &&
           !this.cardinal.owners.includes(message.author.id)
         ) {
-          throw new Error("This command is restricted to bot owners only.");
+          throw new Error('This command is restricted to bot owners only.');
         } else if (message.guild) {
           if (!message.member?.hasPermission(perm))
-            throw new Error("You do not have permission to use this command.");
+            throw new Error('You do not have permission to use this command.');
         }
       });
       await command?.call(message, ...args);
     } catch (e) {
       const embed = errorEmbed(e);
-      const isInternalError = typeof e == "string" || e instanceof ContextError;
+      const isInternalError = typeof e == 'string' || e instanceof ContextError;
 
       if (!isInternalError && process.env.SENTRY_DSN !== null) {
         const tags = {
@@ -95,7 +95,7 @@ export default class Dispatcher extends Event<"message"> {
         captureException(e as Error, { tags });
       }
       message.channel.send(embed);
-      await message.react("❌");
+      await message.react('❌');
     }
 
     info(`Finished: ${Date.now() - start}ms`, command?.name);

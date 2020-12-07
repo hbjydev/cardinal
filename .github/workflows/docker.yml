@@ -2,7 +2,7 @@ name: Indev Builds
 
 on:
   push:
-    branches: ["*"]
+    branches: ['*']
 
 jobs:
   build_push_i:

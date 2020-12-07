@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node .",
     "build": "tsc",
+    "dev": "npm run build && npm start",
     "lint": "eslint . --ext .ts,.js,.json",
     "lint:fix": "eslint . --ext .ts,.js,.json --fix",
     "format": "prettier --config .prettierrc '**/*.{json,js,ts,md}' --write",
