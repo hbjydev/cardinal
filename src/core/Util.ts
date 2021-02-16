@@ -32,8 +32,12 @@ interface FuzzyDate {
   month: string;
   day: string;
 }
+export const isFuzzyDate = (input?: FuzzyDate): boolean =>
+  (input && 'year' in input && 'month' in input && 'day' in input) || false;
+
 export const parseFuzzyDate = ({ year, month, day }: FuzzyDate): string =>
   `${year}/${month}/${day}`;
+
 export const getUserFromMention = (
   client: Client,
   mention: string,

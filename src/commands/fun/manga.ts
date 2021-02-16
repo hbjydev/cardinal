@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import TurndownService from 'turndown';
 import Command from '../../core/Command';
 import { formats, statuses, sources } from '../../anilist';
-import { truncateString, parseFuzzyDate } from '../../core/Util';
+import { truncateString, parseFuzzyDate, isFuzzyDate } from '../../core/Util';
 
 export default class MangaCommand extends Command {
   public name = 'manga';
@@ -97,12 +97,12 @@ export default class MangaCommand extends Command {
         },
         {
           name: 'Chapters',
-          value: media.chapters,
+          value: media.chapters ?? 'N/a',
           inline: true,
         },
         {
           name: 'Volumes',
-          value: media.volumes,
+          value: media.volumes ?? 'N/a',
           inline: true,
         },
         {
@@ -117,12 +117,16 @@ export default class MangaCommand extends Command {
         },
         {
           name: 'Start Date (Y/M/D)',
-          value: parseFuzzyDate(media.startDate),
+          value: isFuzzyDate(media.endDate)
+            ? parseFuzzyDate(media.endDate)
+            : 'N/a',
           inline: true,
         },
         {
           name: 'End Date (Y/M/D)',
-          value: media.endDate ? parseFuzzyDate(media.endDate) : 'N/a',
+          value: isFuzzyDate(media.endDate)
+            ? parseFuzzyDate(media.endDate)
+            : 'N/a',
           inline: true,
         },
         {

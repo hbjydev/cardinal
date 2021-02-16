@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import TurndownService from 'turndown';
 import Command from '../../core/Command';
 import { formats, statuses, sources } from '../../anilist';
-import { truncateString, parseFuzzyDate } from '../../core/Util';
+import { truncateString, parseFuzzyDate, isFuzzyDate } from '../../core/Util';
 
 export default class AnimeCommand extends Command {
   public name = 'anime';
@@ -97,7 +97,7 @@ export default class AnimeCommand extends Command {
         },
         {
           name: 'Episodes',
-          value: media.episodes,
+          value: media.episodes ?? 'N/a',
           inline: true,
         },
         {
@@ -117,12 +117,16 @@ export default class AnimeCommand extends Command {
         },
         {
           name: 'Start Date (Y/M/D)',
-          value: parseFuzzyDate(media.startDate),
+          value: isFuzzyDate(media.StartDate)
+            ? parseFuzzyDate(media.startDate)
+            : 'N/a',
           inline: true,
         },
         {
           name: 'End Date (Y/M/D)',
-          value: media.endDate ? parseFuzzyDate(media.endDate) : 'N/a',
+          value: isFuzzyDate(media.StartDate)
+            ? parseFuzzyDate(media.endDate)
+            : 'N/a',
           inline: true,
         },
         {
