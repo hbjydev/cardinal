@@ -14,7 +14,7 @@ export default class DeleteMacroCommand extends Command {
     'BOT_OWNER')[];
 
   public async run(message: Message, ...args: string[]): Promise<void> {
-    if (!message.guild) {
+    if (!message.guild || !message.member) {
       throw new ContextError('guild');
     }
 
@@ -24,7 +24,7 @@ export default class DeleteMacroCommand extends Command {
 
     const { success, reason } = await ms.tryDeleteGuildMacro(
       id,
-      message.member!,
+      message.member,
     );
 
     if (success !== false) {
