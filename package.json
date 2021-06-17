@@ -46,6 +46,7 @@
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0",
     "pg": "^8.5.1",
+    "prom-client": "^13.1.0",
     "turndown": "^6.0.0",
     "typeorm": "^0.2.29"
   }
