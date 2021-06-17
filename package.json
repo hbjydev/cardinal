@@ -42,7 +42,7 @@
   "dependencies": {
     "@sentry/node": "^5.19.2",
     "chalk": "^4.1.0",
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.0",
     "pg": "^8.5.1",
