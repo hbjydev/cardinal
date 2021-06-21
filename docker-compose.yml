@@ -8,11 +8,15 @@ services:
     env_file: .env
     volumes:
       - './:/app'
+    ports:
+      - 9000:9000
 
   database:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: '1337H4xx0rz'
+      POSTGRES_PASSWORD: cardinal
+      POSTGRES_USER: cardinal
+      POSTGRES_DATABASE: cardinal
     volumes:
       - 'dbdata:/var/lib/postgresql/data'
 

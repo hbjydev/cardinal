@@ -1,3 +1,7 @@
+// Copyright 2021 Hayden Young. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 import Command from '../../core/Command';
 import { Message, MessageEmbed, PermissionString } from 'discord.js';
 import ContextError from '../../core/errors/ContextError';
@@ -14,7 +18,7 @@ export default class DeleteMacroCommand extends Command {
     'BOT_OWNER')[];
 
   public async run(message: Message, ...args: string[]): Promise<void> {
-    if (!message.guild) {
+    if (!message.guild || !message.member) {
       throw new ContextError('guild');
     }
 
@@ -24,7 +28,7 @@ export default class DeleteMacroCommand extends Command {
 
     const { success, reason } = await ms.tryDeleteGuildMacro(
       id,
-      message.member!,
+      message.member,
     );
 
     if (success !== false) {
