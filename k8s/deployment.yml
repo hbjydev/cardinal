@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: cardinal
+  labels:
+    app: cardinal
+
+spec:
+  selector:
+    matchLabels:
+      app: cardinal
+
+  template:
+    metadata:
+      labels:
+        app: cardinal
+
+    spec:
+      containers:
+      - name: cardinal
+        image: hbjy/cardinal:CARDINAL_VERSION
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 250m
+
+        env:
+          - name: NODE_ENV
+            value: CARDINAL_ENVIRONMENT
+
+          - name: DISCORD_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: cardinal-creds
+                key: DISCORD_TOKEN
+
+          - name: DB_URI
+            valueFrom:
+              secretKeyRef:
+                name: cardinal-creds
+                key: DB_URI
+
+          - name: SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                name: cardinal-creds
+                key: SENTRY_DSN
+          
+          - name: OWNERS
+            valueFrom:
+              configMapKeyRef:
+                name: cardinal-config
+                key: OWNERS
+
+          - name: PREFIX
+            valueFrom:
+              configMapKeyRef:
+                name: cardinal-config
+                key: PREFIX
