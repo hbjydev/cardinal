@@ -27,4 +27,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ghcr.io/hbjydev/cardinal/cardinal:${{ github.ref_name }},ghcr.io/hbjydev/cardinal/cardinal:${{ github.sha }}
+          tags: ghcr.io/hbjydev/cardinal:${{ github.ref_name }},ghcr.io/hbjydev/cardinal:${{ github.sha }}
