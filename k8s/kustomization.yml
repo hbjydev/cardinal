@@ -1,0 +1,13 @@
+---
+secretGenerator:
+  - name: cardinal-creds
+    envs:
+      - ./secrets/creds.env
+
+configMapGenerator:
+  - name: cardinal-config
+    envs:
+      - ./config/prd.env
+
+resources:
+  - deployment.yml
