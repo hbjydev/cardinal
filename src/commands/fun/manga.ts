@@ -80,8 +80,8 @@ export default class MangaCommand extends Command {
       title: media.title.english
         ? media.title.english
         : media.title.romaji
-        ? media.title.romaji
-        : media.title.native,
+          ? media.title.romaji
+          : media.title.native,
       url: media.siteUrl,
       description,
       fields: [
