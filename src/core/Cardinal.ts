@@ -11,7 +11,10 @@ export default class Cardinal {
 
   public commandReaction = process.env.COMMAND_REACTION ?? '👀';
 
-  public constructor(public prefix: string, public owners: string[]) {
+  public constructor(
+    public prefix: string,
+    public owners: string[],
+  ) {
     info('Initializing Cardinal...', 'init');
   }
 
