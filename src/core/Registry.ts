@@ -11,7 +11,7 @@ export default class CardinalRegistry {
 
   public constructor(private cardinal: Cardinal) {}
 
-  public registerCommands(...commands: typeof Command[]) {
+  public registerCommands(...commands: (typeof Command)[]) {
     commands.forEach((CommandClass) => {
       const cmd = new CommandClass(this.cardinal);
       info(`Loading command ${cmd.name}...`);
